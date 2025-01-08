@@ -1,0 +1,35 @@
+<div class="min-h-screen bg-gray-900 text-gray-100 p-6">
+
+  <h1 class="text-4xl font-bold text-center text-gray-300 mb-6">Patients Dashboard</h1>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <div *ngFor="let patient of patients" class="bg-gray-800 p-4 rounded-lg shadow-md hover:shadow-xl transition">
+      <h2 class="text-xl font-semibold text-gray-200">{{ patient.name }}</h2>
+      <p class="text-sm text-gray-400">Condition: <span [ngClass]="{
+            'text-green-400': patient.condition === 'Good',
+            'text-red-400': patient.condition === 'Critical'
+          }">
+          {{ patient.condition }}
+        </span>
+      </p>
+      <p class="text-sm text-gray-400">Diagnosis: {{ patient.diagnosis }}</p>
+    </div>
+  </div>
+
+  <div class="bg-gray-800 p-4 rounded-lg shadow-md mb-8">
+    <h2 class="text-2xl font-semibold text-gray-200 mb-4">Alerts Active</h2>
+    <div *ngFor="let alert of alerts" class="flex items-center justify-between p-4 mb-4 bg-cyan-900 rounded-lg">
+      <div>
+        <h3 class="font-medium text-gray-300">{{ alert.patient }}</h3>
+        <p class="text-sm text-gray-400">{{ alert.description }}</p>
+      </div>
+      <span class="text-xs px-2 py-1 rounded-full" [ngClass]="{
+          'bg-green-500 text-white': alert.level === 'Low',
+          'bg-yellow-500 text-white': alert.level === 'Medium',
+          'bg-red-500 text-white': alert.level === 'High'
+        }">
+        {{ alert.level }}
+      </span>
+    </div>
+  </div>
+</div>

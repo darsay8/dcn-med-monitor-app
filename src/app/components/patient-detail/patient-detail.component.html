@@ -1,0 +1,12 @@
+<div class="min-h-screen bg-gray-900 text-gray-100 p-6">
+
+  <div class="bg-gray-800 p-6 rounded-lg shadow-md">
+    <h2 class="text-3xl font-semibold text-gray-200 mb-4">{{ patient.name }}</h2>
+    <p class="text-lg text-gray-400">Diagnosis: {{ patient.diagnosis }}</p>
+    <p class="text-lg text-gray-400">Condition: <span
+        [ngClass]="{'text-green-500': patient.condition === 'Fair', 'text-red-500': patient.condition === 'Critical'}">{{
+        patient.condition }}</span></p>
+  </div>
+
+
+</div>
