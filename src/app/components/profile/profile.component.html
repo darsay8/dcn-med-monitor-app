@@ -1,0 +1,38 @@
+<div class="min-h-screen bg-gray-900 text-gray-100 p-6">
+
+  <app-navbar />
+
+  <h1 class="text-4xl font-bold text-left text-gray-300 my-6">Profile</h1>
+  <div class="bg-gray-800 p-6 rounded-lg shadow-md mt-6">
+    <h2 class="text-3xl font-semibold text-gray-200 mb-4">
+      {{ userProfile?.username !== 'unknown' ? userProfile?.username : (userProfile?.email?.split('@')[0]) }}
+    </h2>
+
+    <div class="space-y-4">
+      <p class="text-lg text-gray-400">
+        <strong class="text-gray-300">Username:</strong>
+        {{ userProfile?.username !== 'unknown' ? userProfile?.username : userProfile?.email?.split('@')[0] }}
+      </p>
+      <p class="text-lg text-gray-400">
+        <strong class="text-gray-300">Email:</strong> {{ userProfile?.email }}
+      </p>
+      <p class="text-lg text-gray-400">
+        <strong class="text-gray-300">Title:</strong> {{ userProfile?.jobTitle }}
+      </p>
+      <p class="text-lg text-gray-400">
+        <strong class="text-gray-300">Id:</strong> {{ userProfile?.localAccountId }}
+      </p>
+    </div>
+
+
+    <!-- <div class="mt-6">
+      <button (click)="callServer()"
+        class="w-48 bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-blue-700 transition-colors">
+        Call Server
+      </button>
+    </div>
+
+
+    <p class="mt-4 text-gray-400">{{ serverResponse }}</p> -->
+  </div>
+</div>
