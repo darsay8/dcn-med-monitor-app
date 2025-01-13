@@ -1,0 +1,35 @@
+<nav class="bg-gray-800 text-white p-4 shadow-md">
+  <div class="flex justify-between items-center">
+    <!-- Logo Section -->
+    <div class="flex items-center space-x-6">
+      <a routerLink="/" class="text-2xl font-bold">Med Monitor App</a>
+    </div>
+
+    <!-- User Info and Authentication -->
+    <div class="flex items-center space-x-6">
+      <!-- Display Username -->
+      <div *ngIf="loginDisplay" class="flex items-center space-x-4">
+        <a *ngIf="userProfile.username !== 'unknown'" routerLink="/profile"
+          class="text-white font-medium hover:text-blue-400 transition-colors">
+          {{ userProfile.username }}
+        </a>
+        <a *ngIf="userProfile.username === 'unknown'" routerLink="/profile"
+          class="text-white font-medium hover:text-blue-400 transition-colors">
+          {{ userProfile.email?.split('@')[0] }}
+        </a>
+      </div>
+
+      <!-- Logout Button -->
+      <button *ngIf="loginDisplay" (click)="logout()"
+        class="bg-red-600 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-red-700 transition-colors">
+        Logout
+      </button>
+
+      <!-- Login Button -->
+      <button *ngIf="!loginDisplay" (click)="loginPopup()"
+        class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-blue-700 transition-colors">
+        Login / Register
+      </button>
+    </div>
+  </div>
+</nav>
