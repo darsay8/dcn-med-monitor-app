@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-patient-detail',
+  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './patient-detail.component.html',
   styleUrl: './patient-detail.component.scss',
