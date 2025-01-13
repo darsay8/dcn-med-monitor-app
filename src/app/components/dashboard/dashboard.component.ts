@@ -1,47 +1,60 @@
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { MsalAuthService } from '../../auth/msal.service';
+import { NavbarComponent } from '../navbar/navbar.component';
+import { Alert, Patient } from '../../models/models';
+import { PatientService } from '../../services/patient/patient.service';
+import { AlertService } from '../../services/alert/alert.service';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule, RouterLink],
+  standalone: true,
+  imports: [CommonModule, NavbarComponent],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+  styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent {
-  patients = [
-    {
-      id: 1,
-      name: 'Juan Pérez',
-      condition: 'Good',
-      diagnosis: 'Hypertension',
-    },
-    {
-      id: 2,
-      name: 'María López',
-      condition: 'Critical',
-      diagnosis: 'Infarct',
-    },
-    {
-      id: 3,
-      name: 'Carlos Méndez',
-      condition: 'Good',
-      diagnosis: 'Pneumonia',
-    },
-  ];
+export class DashboardComponent implements OnInit, OnDestroy {
+  private authSubscription: Subscription = new Subscription();
+  patients: Patient[] = [];
+  alerts: Alert[] = [];
+  isAuth: boolean = false;
 
-  alerts = [
-    {
-      patient: 'Juan Pérez',
-      type: 'Warning',
-      level: 'Low',
-      description: 'Slightly elevated blood pressure',
-    },
-    {
-      patient: 'María López',
-      type: 'Critical',
-      level: 'High',
-      description: 'Irregular heartbeat',
-    },
-  ];
+  constructor(
+    private patientService: PatientService,
+    private alertService: AlertService,
+    private msalAuthService: MsalAuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.authSubscription = this.msalAuthService.isAuthenticated$.subscribe(
+      (isAuthenticated) => {
+        if (isAuthenticated) {
+          this.patientService.getPatients().subscribe((patients) => {
+            this.patients = patients;
+          });
+
+          this.alertService.getAlerts().subscribe((alerts) => {
+            this.alerts = alerts.map((alert) => ({
+              ...alert,
+              level:
+                alert.level.charAt(0).toUpperCase() +
+                alert.level.slice(1).toLowerCase(),
+            }));
+          });
+        }
+      }
+    );
+  }
+
+  isLogged(): boolean {
+    this.isAuth = this.msalAuthService.isAuthenticated();
+    return this.isAuth;
+  }
+
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
+  }
 }
