@@ -14,6 +14,6 @@ export const environment = {
     uri: '',
   },
   serverEndpoints: {
-    helloUrl: '',
+    helloUrl: '/',
   },
 };
